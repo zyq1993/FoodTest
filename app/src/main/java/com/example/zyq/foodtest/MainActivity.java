@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     }
 
     private void initRestaurant() {//把数据库中的数据放入restaurantList数组中
-
+//数据库操作
     }
 
 }
