@@ -45,7 +45,7 @@ public class RegisterActivity extends Activity {
                     Toast.makeText(RegisterActivity.this, "注册成功，返回登录界面", Toast.LENGTH_SHORT).show();
                     //注册成功后，把账号密码存入数据库或者服务器，再返回登录界面
                     //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    RegisterActivity.actionStart(RegisterActivity.this, account,password);
+                    RegisterActivity.actionStart(RegisterActivity.this, account, password);
                 } else {
                     Toast.makeText(RegisterActivity.this, "两次密码不一样，请重新输入", Toast.LENGTH_SHORT).show();
                 }

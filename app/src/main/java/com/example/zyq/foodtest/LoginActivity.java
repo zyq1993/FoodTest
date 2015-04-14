@@ -46,7 +46,7 @@ public class LoginActivity extends Activity {
         boolean isRemember = pref.getBoolean("remember_password", false);
         if (isRemember) {//若是记住密码，则自动填写账号密码
             String account = pref.getString("account", "");
-            String password= pref.getString("password", "");
+            String password = pref.getString("password", "");
             accountEdit.setText(account);
             passordEdit.setText(password);
             rememberPass.setChecked(true);
