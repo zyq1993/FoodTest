@@ -11,6 +11,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.Attributes;
+
 /**
  * Created by ZYQ on 2015/4/2 0002.
  */
@@ -57,26 +64,60 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 String account = accountEdit.getText().toString();
                 String password = passordEdit.getText().toString();
-                //核对账号密码是否匹配，这里存在本地数据库还是服务器呢？现有处理是本地
-                if (account.equals("admin") && password.equals("123456")) {
-                    editor = pref.edit();
-                    if (rememberPass.isChecked()) {
-                        editor.putBoolean("remember_password", true);
-                        editor.putString("account", account);
-                        editor.putString("password", password);
-                    } else {
-                        editor.clear();
-                    }
-                    editor.commit();
-                    //登录成功来到点菜界面
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                //记住密码与否
+                editor = pref.edit();
+                if (rememberPass.isChecked()) {
+                    editor.putBoolean("remember_password", true);
+                    editor.putString("account", account);
+                    editor.putString("password", password);
                 } else {
-                    Toast.makeText(LoginActivity.this, "account or password is invalid", Toast.LENGTH_SHORT).show();
+                    editor.clear();
                 }
+                editor.commit();
+                //核对账号密码是否匹配，这里存在本地数据库还是服务器呢？现有处理是本地
+                //把输入的账号密码提交到服务器
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("username", account));
+                params.add(new BasicNameValuePair("password", password));
+                String url = "http://foodieworld.sinaapp.com/user/login/";
+                HttpUtil.doPost(url, params, new HttpCallbackListener() {
+                    @Override
+                    public void onFinish(final String response) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, "response: " + response, Toast.LENGTH_SHORT).show();
+                                if (response.equals("dismatch")) {
+                                    Toast.makeText(LoginActivity.this, "账号和密码不匹配，请重新输入", Toast.LENGTH_SHORT).show();
+                                    return;
+                                } else if (response.equals("unknown")) {
+                                    Toast.makeText(LoginActivity.this, "未知错误，请重新输入", Toast.LENGTH_SHORT).show();
+                                    return;
+                                } else {
+                                    //登录成功来到点菜界面
+//                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                    intent.putExtra("userId", response);
+//                                    startActivity(intent);
+//                                    finish();
+//                                    Toast.makeText(LoginActivity.this, "login succeed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         });
+
         //转入注册界面
         wantRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +126,5 @@ public class LoginActivity extends Activity {
                 startActivity(intent1);
             }
         });
-
     }
 }

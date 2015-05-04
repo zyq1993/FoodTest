@@ -24,8 +24,8 @@
             <EditText
                 android:id="@+id/account"
                 android:layout_height="wrap_content"
-                android:hint="请输入账号"/>
-            </TableRow>
+                android:hint="请输入手机号码"/>
+        </TableRow>
 
         <TableRow>
             <TextView
@@ -47,29 +47,22 @@
                 android:inputType="textPassword" />
         </TableRow>
 
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:text="地址:" />
+            <EditText
+                android:id="@+id/address"
+                android:layout_height="wrap_content"
+                android:hint="请输入地址"/>
+        </TableRow>
+
     </TableLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/register"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/register"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"
-            android:text="注册" />
-
-        <Button
-            android:id="@+id/return_login"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"
-            android:text="返回登录" />
-
-    </LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:text="注册" />
 
 </LinearLayout>

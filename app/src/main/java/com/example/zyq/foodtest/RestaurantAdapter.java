@@ -36,8 +36,8 @@ public class RestaurantAdapter extends ArrayAdapter {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.restaurantImage.setImageResource(restaurant.getImageId());
-        viewHolder.restaurantName.setText(restaurant.getName());
+        viewHolder.restaurantImage.setImageResource(restaurant.getRestaurantImage());
+        viewHolder.restaurantName.setText(restaurant.getRestaurantName());
         return view;
     }
 

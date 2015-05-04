@@ -7,20 +7,32 @@ package com.example.zyq.foodtest;
 //餐馆的类
 public class Restaurant {
 
-    private String name;//餐馆名称
-    private int imageId;//餐馆的配图
-
-    public Restaurant(String name, int imageId) {
-        this.name = name;
-        this.imageId = imageId;
+    private int restaurantId;
+    private String restaurantName;//餐馆名称
+    private int restaurantImage;//餐馆的配图
+    private String restaurantAddress;
+    //评价等未加
+    public Restaurant(int restaurantId, String restaurantName, int restaurantImage, String restaurantAddress) {
+        this.restaurantId = restaurantId;
+        this.restaurantName = restaurantName;
+        this.restaurantImage = restaurantImage;
+        this.restaurantAddress = restaurantAddress;
     }
 
-    public String getName() {
-        return name;
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
-    public int getImageId() {
-        return imageId;
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public int getRestaurantImage() {
+        return restaurantImage;
+    }
+
+    public String getRestaurantAddress() {
+        return restaurantAddress;
     }
 
 }
