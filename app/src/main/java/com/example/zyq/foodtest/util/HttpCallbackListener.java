@@ -1,4 +1,4 @@
-package com.example.zyq.foodtest;
+package com.example.zyq.foodtest.util;
 
 /**
  * Created by ZYQ on 2015/4/29 0029.

@@ -3,6 +3,7 @@
     package="com.example.zyq.foodtest" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +20,25 @@
         </activity>
 
         <activity
-            android:name=".MainActivity" >
+            android:name=".activity.MainActivity" >
         </activity>
 
         <activity
-            android:name=".RegisterActivity" >
+            android:name=".activity.RegisterActivity" >
         </activity>
+
+        <activity
+            android:name=".activity.FoodActivity" >
+        </activity>
+
+        <activity
+            android:name=".activity.OrderActivity" >
+        </activity>
+
+        <activity
+            android:name=".activity.IndividualActivity" >
+        </activity>
+
     </application>
 
 </manifest>

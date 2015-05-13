@@ -1,4 +1,4 @@
-package com.example.zyq.foodtest;
+package com.example.zyq.foodtest.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,12 +11,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.zyq.foodtest.util.HttpCallbackListener;
+import com.example.zyq.foodtest.R;
+import com.example.zyq.foodtest.util.HttpUtil;
+import com.example.zyq.foodtest.util.Post;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
 
 /**
  * Created by ZYQ on 2015/4/2 0002.
@@ -74,20 +78,38 @@ public class LoginActivity extends Activity {
                     editor.clear();
                 }
                 editor.commit();
-                //核对账号密码是否匹配，这里存在本地数据库还是服务器呢？现有处理是本地
-                //把输入的账号密码提交到服务器
+
+                new Post() {
+                    @Override
+                    protected synchronized void onPostExecute(String response) {
+                        if (response.equals("mismatch")) {
+                            Toast.makeText(LoginActivity.this, "账号和密码不匹配，请重新输入", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if (response.equals("unknown")) {
+                            Toast.makeText(LoginActivity.this, "未知错误，请重新输入", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("userId", response);
+                            startActivity(intent);
+                            Toast.makeText(LoginActivity.this, "login succeed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }.execute("/user/login/", "username", account, "password", password);
+
+/*                //把输入的账号密码提交到服务器
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("username", account));
                 params.add(new BasicNameValuePair("password", password));
-                String url = "http://foodieworld.sinaapp.com/user/login/";
+                String url = "/user/login/";
                 HttpUtil.doPost(url, params, new HttpCallbackListener() {
                     @Override
                     public void onFinish(final String response) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(LoginActivity.this, "response: " + response, Toast.LENGTH_SHORT).show();
-                                if (response.equals("dismatch")) {
+//                                Toast.makeText(LoginActivity.this, "response: " + response, Toast.LENGTH_SHORT).show();
+                                if (response.equals("mismatch")) {
                                     Toast.makeText(LoginActivity.this, "账号和密码不匹配，请重新输入", Toast.LENGTH_SHORT).show();
                                     return;
                                 } else if (response.equals("unknown")) {
@@ -95,9 +117,9 @@ public class LoginActivity extends Activity {
                                     return;
                                 } else {
                                     //登录成功来到点菜界面
-//                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                    intent.putExtra("userId", response);
-//                                    startActivity(intent);
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("userId", response);
+                                    startActivity(intent);
 //                                    finish();
 //                                    Toast.makeText(LoginActivity.this, "login succeed", Toast.LENGTH_SHORT).show();
                                 }
@@ -114,7 +136,7 @@ public class LoginActivity extends Activity {
                             }
                         });
                     }
-                });
+                });*/
             }
         });
 

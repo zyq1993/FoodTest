@@ -1,7 +1,6 @@
-package com.example.zyq.foodtest;
+package com.example.zyq.foodtest.util;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,7 +14,6 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -23,19 +21,22 @@ import java.util.List;
  */
 public class HttpUtil {
 
+    final static String domain = "http://foodieworld.sinaapp.com";
+
     public static void doGet(final String address, final HttpCallbackListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+//                    Log.d("response", "httpGet:" );
                     HttpClient httpClient = new DefaultHttpClient();
-                    HttpGet httpGet = new HttpGet(address);
+                    HttpGet httpGet = new HttpGet(domain + address);
                     HttpResponse httpResponse = httpClient.execute(httpGet);
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {
                         //请求和响应成功
                         HttpEntity entity = httpResponse.getEntity();
                         String response = EntityUtils.toString(entity, "utf-8");
-                        //。。。
+//                        Log.d("response", "httpGet: " + response);//
 
                         if (listener != null) {
                             listener.onFinish(response.toString());
@@ -55,13 +56,13 @@ public class HttpUtil {
             @Override
             public void run() {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(address);
+                HttpPost httpPost = new HttpPost(domain + address);
                 try {
                     UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, "utf-8");
                     httpPost.setEntity(entity);
                     HttpResponse httpResponse = httpClient.execute(httpPost);
-                    HttpEntity httpentity = httpResponse.getEntity();
-                    String response = EntityUtils.toString(entity);
+                    HttpEntity httpEntity = httpResponse.getEntity();
+                    String response = EntityUtils.toString(httpEntity);
                     Log.d("response", response);
                     if (listener != null) {
                         listener.onFinish(response.toString());
